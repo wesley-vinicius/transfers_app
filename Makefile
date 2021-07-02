@@ -27,19 +27,19 @@ docker-logs:
 	@docker-compose logs -f
 
 docker-exec-php:
-	@docker exec -it ${NAME_CONTAINER}_php8.0 bash
+	@docker exec -it ${NAME_CONTAINER}_php bash
 
 test:
-	@docker exec -it ${NAME_CONTAINER}_php8.0 php artisan test --coverage-html tests/coverage/html
+	@docker exec -it ${NAME_CONTAINER}_php php artisan test --coverage-html tests/coverage/html
 
 test-unit:
-	@docker exec -it ${NAME_CONTAINER}_php8.0 php artisan test --testsuite=Unit
+	@docker exec -it ${NAME_CONTAINER}_php php artisan test --testsuite=Unit
 
 migrate:
-	@docker exec -it ${NAME_CONTAINER}_php8.0 php artisan migrate
+	@docker exec -it ${NAME_CONTAINER}_php php artisan migrate
 
 migrate-rollback:
-	@docker exec -it ${NAME_CONTAINER}_php8.0 php artisan migrate:rollback
+	@docker exec -it ${NAME_CONTAINER}_php php artisan migrate:rollback
 
 migrate-refresh:
-	@docker exec -it ${NAME_CONTAINER}_php8.0 php artisan migrate:refresh
+	@docker exec -it ${NAME_CONTAINER}_php php artisan migrate:refresh
