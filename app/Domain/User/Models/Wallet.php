@@ -2,6 +2,7 @@
 
 namespace App\Domain\User\Models;
 
+use App\Domain\User\Exceptions\InsuficienteBalanceException;
 use Database\Factories\WalletFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,8 +30,30 @@ class Wallet extends Model
     public function deposit(float $value): void
     {
         if ($value <= 0) {
-            throw new \InvalidArgumentException('The deposit amount must be greater than zero');
+            throw new \InvalidArgumentException(
+                'The deposit amount must be greater than zero'
+            );
         }
-        $this->attributes['balance'] = floatval( $this->balance + $value);
+        $this->attributes['balance'] = floatval($this->balance + $value);
+    }
+
+    public function withdraw(float $value): void
+    {
+        if ($value <= 0) {
+            throw new \InvalidArgumentException(
+                'The withdrawal amount must be greater than zero'
+            );
+        }
+        if (! $this->hasEnoughBalance($value)) {
+            throw new InsuficienteBalanceException(
+                'The user have insufficient balance to withdraw'
+            );
+        }
+        $this->attributes['balance'] = $this->balance -= $value;
+    }
+
+    private function hasEnoughBalance(float $value): bool
+    {
+        return $this->balance >= $value;
     }
 }

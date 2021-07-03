@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Domain\User\Models;
 
+use App\Domain\User\Exceptions\InsuficienteBalanceException;
 use App\Domain\User\Models\Wallet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
@@ -36,43 +37,91 @@ class WalletTest extends TestCase
     public function testThrowExceptionValueIsNegative()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $wallet = Wallet::factory()->state(['balance' => -1])->make();
-        $wallet->deposit(0);
+        $wallet = Wallet::factory()->state(['balance' => 0])->make();
+        $wallet->deposit(-1);
     }
 
     /**
      * @dataProvider getValuesValidDeposit
      */
-    public function testMustChangeBalanceWhenNumberIsGreaterThanZero($value_initial, $value, $value_expected)
-    {   
-        $wallet = Wallet::factory()->state(['balance' => $value_initial])->make();
+    public function testMustChangeBalanceWhenNumberIsGreaterThanZero($balance_initial, $value, $balance_expected)
+    {
+        $wallet = Wallet::factory()->state(['balance' => $balance_initial])->make();
         $wallet->deposit($value);
 
-        $this->assertEquals($wallet->balance, $value_expected);
+        $this->assertEquals($wallet->balance, $balance_expected);
     }
 
     public function getValuesValidDeposit()
     {
         return [
             'Deposit integer amount' => [
-                'value_initial'   => 0,
+                'balance_initial'   => 0,
                 'value'   => 100,
-                'value_expected' => 100,
+                'balance_expected' => 100,
             ],
             'Deposit integer amount with balance in wallet' => [
-                'value_initial'   => 100,
+                'balance_initial'   => 100,
                 'value'   => 100,
-                'value_expected' => 200,
+                'balance_expected' => 200,
             ],
             'Deposit decimal amount' => [
-                'value_initial'   => 0,
+                'balance_initial'   => 0,
                 'value'   => 100.05,
-                'value_expected' => 100.05,
+                'balance_expected' => 100.05,
             ],
             'Deposit decimal amount with balance in wallet' => [
-                'value_initial'   => 100.25,
+                'balance_initial'   => 100.25,
                 'value'   => 100.66,
-                'value_expected' => 200.91,
+                'balance_expected' => 200.91,
+            ],
+        ];
+    }
+
+    public function testThrowExceptionIfAmountWithdrawalLessThanZero()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $wallet = Wallet::factory()->state(['balance' => 0])->make();
+        $wallet->withdraw(-1);
+    }
+
+    public function testThrowExceptionIfAmountWithdrawalEqualsZero()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $wallet = Wallet::factory()->state(['balance' => 0])->make();
+        $wallet->withdraw(0);
+    }
+
+    public function testThrowExceptionIfBalanceInsuficiente()
+    {
+        $this->expectException(InsuficienteBalanceException::class);
+        $wallet = Wallet::factory()->state(['balance' => 100])->make();
+        $wallet->withdraw(101);
+    }
+
+    /**
+     * @dataProvider getValuesValidWithdrawl
+     */
+    public function testMustChangeBalanceWhenNumberIsGreaterThanZeroWithdrawl($balance_initial, $value, $balance_expected)
+    {
+        $wallet = Wallet::factory()->state(['balance' => $balance_initial])->make();
+        $wallet->withdraw($value);
+
+        $this->assertEquals($wallet->balance, $balance_expected);
+    }
+
+    public function getValuesValidWithdrawl()
+    {
+        return [
+            'Deposit integer amount' => [
+                'balance_initial'   => 2000,
+                'value'   => 100,
+                'balance_expected' => 1900,
+            ],
+            'Deposit decimal amount' => [
+                'balance_initial'   => 2000.97,
+                'value'   => 100.05,
+                'balance_expected' => 1900.92,
             ],
         ];
     }
