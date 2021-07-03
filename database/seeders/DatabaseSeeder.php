@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Domain\User\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        User::unsetEventDispatcher();
+        $this->call(UserTypesSeeder::class);
+        User::factory(10)
+            ->hasWallet(1)
+            ->create();
     }
 }

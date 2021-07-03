@@ -170,10 +170,15 @@ return [
          * Application Service Providers...
          */
         App\Core\Providers\AppServiceProvider::class,
-        App\Core\Providers\AuthServiceProvider::class,
+        //App\Core\Providers\AuthServiceProvider::class,
         // App\Core\Providers\BroadcastServiceProvider::class,
-        App\Core\Providers\EventServiceProvider::class,
+        //App\Core\Providers\EventServiceProvider::class,
         App\Core\Providers\RouteServiceProvider::class,
+
+        /*
+        * User providers
+        */
+        App\Domain\User\Providers\UserServiceProvider::class,
 
     ],
 
