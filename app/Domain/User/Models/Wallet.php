@@ -25,4 +25,12 @@ class Wallet extends Model
     {
         return WalletFactory::new();
     }
+
+    public function deposit(float $value): void
+    {
+        if ($value <= 0) {
+            throw new \InvalidArgumentException('The deposit amount must be greater than zero');
+        }
+        $this->attributes['balance'] = floatval( $this->balance + $value);
+    }
 }
