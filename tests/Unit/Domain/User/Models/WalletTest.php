@@ -64,12 +64,12 @@ class WalletTest extends TestCase
                 'value'   => 100,
                 'value_expected' => 200,
             ],
-            'Deposit decimal amount with balance in wallet' => [
+            'Deposit decimal amount' => [
                 'value_initial'   => 0,
                 'value'   => 100.05,
                 'value_expected' => 100.05,
             ],
-            'Deposit decimal amount' => [
+            'Deposit decimal amount with balance in wallet' => [
                 'value_initial'   => 100.25,
                 'value'   => 100.66,
                 'value_expected' => 200.91,
