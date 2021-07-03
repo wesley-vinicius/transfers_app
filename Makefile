@@ -35,6 +35,9 @@ test:
 test-unit:
 	@docker exec -it ${NAME_CONTAINER}_php php artisan test --testsuite=Unit
 
+php-insights:
+	@docker exec -it ${NAME_CONTAINER}_php php artisan insights app/Domain
+
 migrate:
 	@docker exec -it ${NAME_CONTAINER}_php php artisan migrate
 
