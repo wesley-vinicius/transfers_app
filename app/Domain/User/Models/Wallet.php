@@ -18,7 +18,7 @@ class Wallet extends Model
      * @var array
      */
     protected $fillable = [
-        'balance', 'user_id'
+        'balance', 'user_id',
     ];
 
     public static function newFactory()

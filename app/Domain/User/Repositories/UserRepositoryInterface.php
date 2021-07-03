@@ -10,5 +10,4 @@ interface UserRepositoryInterface
     public function save(User $user): User;
 
     public function createWallet(Wallet $wallet): void;
-
 }

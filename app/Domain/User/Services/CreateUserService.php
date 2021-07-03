@@ -18,11 +18,11 @@ class CreateUserService
     public function execute(array $data): User
     {
         $user = new User([
-            "name" => $data['name'],
-            "email" => $data['email'],
-            "document" => $data['document'],
-            "user_type_id" => $data['user_type_id'],
-            "password" =>  Hash::make($data['password']),
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'document' => $data['document'],
+            'user_type_id' => $data['user_type_id'],
+            'password' => Hash::make($data['password']),
         ]);
 
         return $this->userRepository->save($user);

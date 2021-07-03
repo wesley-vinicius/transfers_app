@@ -5,7 +5,6 @@ namespace App\Domain\User\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Hash;
 
 class User extends Model
 {
@@ -27,16 +26,16 @@ class User extends Model
     ];
 
     protected $hidden = [
-        'password'
+        'password',
     ];
-
-    private static function newFactory()
-    {
-        return UserFactory::new();
-    }
 
     public function wallet()
     {
         return $this->hasOne(Wallet::class);
+    }
+
+    private static function newFactory()
+    {
+        return UserFactory::new();
     }
 }

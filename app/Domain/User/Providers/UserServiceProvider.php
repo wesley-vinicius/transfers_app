@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Domain\User\Providers;
 
 use App\Domain\User\Models\User;
@@ -11,7 +10,6 @@ use Carbon\Laravel\ServiceProvider;
 
 class UserServiceProvider extends ServiceProvider
 {
-
     /**
      * Register any events for your application.
      */
@@ -19,7 +17,7 @@ class UserServiceProvider extends ServiceProvider
     {
         User::observe(UserObserver::class);
     }
-    
+
     /**
      * Register services.
      */
