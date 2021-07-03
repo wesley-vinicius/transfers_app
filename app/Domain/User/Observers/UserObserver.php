@@ -29,6 +29,6 @@ class UserObserver
             'balance' => 0,
         ]);
         
-        $this->userRepository->createWallet($wallet);
+        $this->userRepository->saveWallet($wallet);
     }
 }

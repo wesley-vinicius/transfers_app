@@ -13,7 +13,7 @@ class UserRepository implements UserRepositoryInterface
         return $user->fresh();
     }
 
-    public function createWallet(Wallet $wallet): void
+    public function saveWallet(Wallet $wallet): void
     {
         $wallet->save();
     }
