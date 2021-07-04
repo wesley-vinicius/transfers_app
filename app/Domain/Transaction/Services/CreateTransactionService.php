@@ -9,6 +9,7 @@ use App\Domain\Transaction\Models\Transaction;
 use App\Domain\Transaction\Repositories\Contracts\TransactionRepositoryInterface;
 use App\Domain\Transaction\Services\Contracts\AuthorizeTransactionInterface;
 use App\Domain\User\Repositories\UserRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class CreateTransactionService
 {
@@ -31,15 +32,11 @@ class CreateTransactionService
         $payer = $this->userRepository->findUserById($data['payer_id']);
         $payee = $this->userRepository->findUserById($data['payee_id']);
 
-        $walletPayer = $payer->wallet;
-        $walletPayee = $payee->wallet;
-
         if ($payer->isRetailer()) {
             throw new RetailerCannotTransferException(
                 'Retailer cannot transfer'
             );
         }
-
         if (! $this->authorizeTransaction->authorized()) {
             throw new UnauthorizedTransactionException(
                 'Unauthorized transaction'
@@ -47,19 +44,20 @@ class CreateTransactionService
         }
 
         $transaction = new Transaction([
-            'payer' => $data['payer_id'],
-            'payee' => $data['payee_id'],
+            'payer_id' => $data['payer_id'],
+            'payee_id' => $data['payee_id'],
             'value' => $data['value'],
         ]);
 
-        $walletPayer->withdraw($data['value']);
-        $walletPayee->deposit($data['value']);
+        $payer->wallet->withdraw($data['value']);
+        $payee->wallet->deposit($data['value']);
 
-        $transaction = $this->transactionRepository->create($transaction);
+        $transaction = DB::transaction(function () use ($transaction, $payer, $payee) { 
+            $this->userRepository->updateWallet($payer->wallet);
+            $this->userRepository->updateWallet( $payee->wallet);
 
-        $this->userRepository->updateWallet($walletPayer);
-        $this->userRepository->updateWallet($walletPayee);
-
+            return $this->transactionRepository->create($transaction);
+        });
         event(new SendNotification($transaction));
 
         return $transaction;
