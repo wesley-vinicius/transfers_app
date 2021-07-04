@@ -22,10 +22,10 @@ class UserRepositoryTest extends TestCase
     public function testMustSaveUserAndReturnToUser()
     {
         $user = User::factory()->make();
-        $userRespository = new UserRepository();
-        $returnRespository = $userRespository->save($user);
+        $userRepository = new UserRepository();
+        $returnRepository = $userRepository->save($user);
 
-        $this->assertInstanceOf(User::class, $returnRespository);
+        $this->assertInstanceOf(User::class, $returnRepository);
         $this->assertDatabaseHas('users', [
             "id" => $user->id,
             "name" => $user->name,
@@ -43,8 +43,8 @@ class UserRepositoryTest extends TestCase
         $user = User::factory()->create();
         $user->fresh();
 
-        $userRespository = new UserRepository();
-        $returnRespository = $userRespository->findUserById($user->id);
+        $userRepository = new UserRepository();
+        $returnRepository = $userRepository->findUserById($user->id);
         $this->assertDatabaseHas('users', [
             "id" => $user->id,
             "name" => $user->name,
@@ -52,7 +52,7 @@ class UserRepositoryTest extends TestCase
             "document" => $user->document,
             "user_type_id" => $user->user_type_id,
         ]);
-        $this->assertEquals($user->toArray(), $returnRespository->toArray());
+        $this->assertEquals($user->toArray(), $returnRepository->toArray());
     }
 
     public function testMustSaveWallet()
@@ -66,8 +66,8 @@ class UserRepositoryTest extends TestCase
             'balance' => 100
         ]);
 
-        $userRespository = new UserRepository();
-        $userRespository->saveWallet($wallet);
+        $userRepository = new UserRepository();
+        $userRepository->saveWallet($wallet);
 
         $this->assertDatabaseHas('wallets', [
             "id" => 1,
@@ -89,8 +89,8 @@ class UserRepositoryTest extends TestCase
         $wallet = $user->wallet;
         $wallet->deposit(55);
 
-        $userRespository = new UserRepository();
-        $userRespository->UpdateWallet($wallet);
+        $userRepository = new UserRepository();
+        $userRepository->UpdateWallet($wallet);
 
         $this->assertDatabaseHas('wallets', [
             "id" => 1,
@@ -111,7 +111,7 @@ class UserRepositoryTest extends TestCase
             'balance' => 100
         ]);
 
-        $userRespository = new UserRepository();
-        $userRespository->UpdateWallet($wallet);
+        $userRepository = new UserRepository();
+        $userRepository->UpdateWallet($wallet);
     }
 }
