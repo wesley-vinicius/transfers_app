@@ -13,6 +13,11 @@ class UserRepository implements UserRepositoryInterface
         return $user->fresh();
     }
 
+    public function findUserById(int $id): User
+    {
+        return User::findOrFail($id);
+    }
+
     public function saveWallet(Wallet $wallet): void
     {
         $wallet->save();

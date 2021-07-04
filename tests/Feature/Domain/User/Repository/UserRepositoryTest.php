@@ -37,6 +37,23 @@ class UserRepositoryTest extends TestCase
         ]);
     }
 
+    public function testMustReturnUserById()
+    {
+        $user = User::factory()->create();
+        $user->fresh();
+
+        $userRespository = new UserRepository();
+        $returnRespository = $userRespository->findUserById($user->id);
+        $this->assertDatabaseHas('users', [
+            "id" => $user->id,
+            "name" => $user->name,
+            "email" => $user->email,
+            "document" => $user->document,
+            "user_type_id" => $user->user_type_id,
+        ]);
+        $this->assertEquals($user->toArray(), $returnRespository->toArray());
+    }
+
     public function testMustSaveWallet()
     {
         User::unsetEventDispatcher();
