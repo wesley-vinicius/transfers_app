@@ -2,7 +2,7 @@
 
 namespace App\Domain\User\Models;
 
-use App\Domain\User\Exceptions\InsuficienteBalanceException;
+use App\Domain\User\Exceptions\InsuficientBalanceException;
 use Database\Factories\WalletFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -45,7 +45,7 @@ class Wallet extends Model
             );
         }
         if (! $this->hasEnoughBalance($value)) {
-            throw new InsuficienteBalanceException(
+            throw new InsuficientBalanceException(
                 'The user have insufficient balance to withdraw'
             );
         }

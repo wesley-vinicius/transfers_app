@@ -7,7 +7,7 @@ use App\Domain\Transaction\Exceptions\RetailerCannotTransferException;
 use App\Domain\Transaction\Exceptions\UnauthorizedTransactionException;
 use App\Domain\Transaction\Http\Requests\TransactionRequest;
 use App\Domain\Transaction\Services\CreateTransactionService;
-use App\Domain\User\Exceptions\InsuficienteBalanceException;
+use App\Domain\User\Exceptions\InsuficientBalanceException;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -36,7 +36,7 @@ class TransactionController extends Controller
             );
         }catch (UnauthorizedTransactionException | RetailerCannotTransferException $exception) {
             return $this->error($exception->getMessage(),Response::HTTP_UNAUTHORIZED);
-        }catch (InsuficienteBalanceException $exception) {
+        }catch (InsuficientBalanceException $exception) {
             return $this->error($exception->getMessage(),Response::HTTP_UNPROCESSABLE_ENTITY);
         }catch (\Exception $exception) {
           

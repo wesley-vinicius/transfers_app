@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Domain\User\Models;
 
-use App\Domain\User\Exceptions\InsuficienteBalanceException;
+use App\Domain\User\Exceptions\InsuficientBalanceException;
 use App\Domain\User\Models\Wallet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
@@ -94,7 +94,7 @@ class WalletTest extends TestCase
 
     public function testThrowExceptionIfBalanceInsuficiente()
     {
-        $this->expectException(InsuficienteBalanceException::class);
+        $this->expectException(InsuficientBalanceException::class);
         $wallet = Wallet::factory()->state(['balance' => 100])->make();
         $wallet->withdraw(101);
     }

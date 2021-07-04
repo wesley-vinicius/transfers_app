@@ -8,7 +8,7 @@ use App\Domain\Transaction\Http\Controllers\TransactionController;
 use App\Domain\Transaction\Http\Requests\TransactionRequest;
 use App\Domain\Transaction\Models\Transaction;
 use App\Domain\Transaction\Services\CreateTransactionService;
-use App\Domain\User\Exceptions\InsuficienteBalanceException;
+use App\Domain\User\Exceptions\InsuficientBalanceException;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -103,7 +103,7 @@ class TransactionControllerTest extends TestCase
         return [
             'Transaction Unauthorized' => [new UnauthorizedTransactionException(), 'status_code' => Response::HTTP_UNAUTHORIZED],
             'Retailer cannot transfer' => [new RetailerCannotTransferException(), 'status_code' => Response::HTTP_UNAUTHORIZED],
-            'User without balence sufficient' => [new InsuficienteBalanceException(), 'status_code' => Response::HTTP_UNPROCESSABLE_ENTITY],
+            'User without balence sufficient' => [new InsuficientBalanceException(), 'status_code' => Response::HTTP_UNPROCESSABLE_ENTITY],
         ];
     }
 }
