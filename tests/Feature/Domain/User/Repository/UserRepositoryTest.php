@@ -5,6 +5,7 @@ namespace Tests\Feature\Domain\User\Repository;
 use App\Domain\User\Models\User;
 use App\Domain\User\Models\Wallet;
 use App\Domain\User\Repositories\UserRepository;
+use DomainException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -73,5 +74,44 @@ class UserRepositoryTest extends TestCase
             "user_id" => $user->id,
             "balance" => 100,
         ]);
+    }
+
+    public function testMustUpdateWallet()
+    {
+        $user = User::factory()->create();
+        
+        $this->assertDatabaseHas('wallets', [
+            "id" => 1,
+            "user_id" => $user->id,
+            "balance" => 0,
+        ]);
+
+        $wallet = $user->wallet;
+        $wallet->deposit(55);
+
+        $userRespository = new UserRepository();
+        $userRespository->UpdateWallet($wallet);
+
+        $this->assertDatabaseHas('wallets', [
+            "id" => 1,
+            "user_id" => $user->id,
+            "balance" => 55,
+        ]);
+    }
+
+    public function testMustReturnExcptionWalletNotExist()
+    {
+        $this->expectException(DomainException::class);
+
+        User::unsetEventDispatcher();
+        $user = User::factory()->create();
+        
+        $wallet = new Wallet([
+            'user_id' => $user->id,
+            'balance' => 100
+        ]);
+
+        $userRespository = new UserRepository();
+        $userRespository->UpdateWallet($wallet);
     }
 }

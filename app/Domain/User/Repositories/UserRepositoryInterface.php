@@ -12,4 +12,6 @@ interface UserRepositoryInterface
     public function findUserById(int $id): User;
 
     public function saveWallet(Wallet $wallet): void;
+
+    public function UpdateWallet(Wallet $wallet): Wallet;
 }
