@@ -34,6 +34,11 @@ class User extends Model
         return $this->hasOne(Wallet::class);
     }
 
+    public function isRetailer()
+    {
+        return $this->user_type_id === 2;
+    }
+
     private static function newFactory()
     {
         return UserFactory::new();

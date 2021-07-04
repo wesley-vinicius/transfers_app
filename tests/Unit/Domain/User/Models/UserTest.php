@@ -36,4 +36,17 @@ class UserTest extends TestCase
         $this->assertEquals(1, $user->wallet->id);
         $this->assertEquals(0, $user->wallet->balance);
     }
+
+    public function testReturnFalseWhenUserIsOfRetailer()
+    {
+        $user = User::factory()->state(['user_type_id' => 1])->make();
+        $this->assertFalse($user->isRetailer());
+    }
+
+    public function testReturnTrueWhenUserIsRetailer()
+    {
+        $user = User::factory()->state(['user_type_id' => 2])->make();
+        $this->assertTrue( $user->isRetailer());
+    }
+
 }
