@@ -27,21 +27,21 @@ class TransactionController extends Controller
             $this->createTransactionService->execute([
                 'payer_id' => $payload['payer'],
                 'payee_id' => $payload['payee'],
-                'value' => $payload['value']
+                'value' => $payload['value'],
             ]);
 
-            return $this->success([],
+            return $this->success(
+                [],
                 'Transaction performed successfully',
                 Response::HTTP_OK
             );
-        }catch (UnauthorizedTransactionException | RetailerCannotTransferException $exception) {
-            return $this->error($exception->getMessage(),Response::HTTP_UNAUTHORIZED);
-        }catch (InsuficientBalanceException $exception) {
-            return $this->error($exception->getMessage(),Response::HTTP_UNPROCESSABLE_ENTITY);
-        }catch (\Exception $exception) {
-          
+        } catch (UnauthorizedTransactionException | RetailerCannotTransferException $exception) {
+            return $this->error($exception->getMessage(), Response::HTTP_UNAUTHORIZED);
+        } catch (InsuficientBalanceException $exception) {
+            return $this->error($exception->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        } catch (\Exception $exception) {
             Log::critical($exception);
-            return $this->error('It was not possible to perform the transaction',Response::HTTP_INTERNAL_SERVER_ERROR);
-        }   
+            return $this->error('It was not possible to perform the transaction', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

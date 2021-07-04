@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class TransactionRequest extends FormRequest
 {
-
     protected $stopOnFirstFailure = true;
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +25,9 @@ class TransactionRequest extends FormRequest
     public function rules()
     {
         return [
-            "payer" => ['bail', 'required', 'integer', 'exists:users,id'],
-            "payee" => ['bail', 'required', 'integer', 'different:payer', 'exists:users,id'],
-            "value" => ['required', 'gt:0', 'numeric', 'min:1'],
+            'payer' => ['bail', 'required', 'integer', 'exists:users,id'],
+            'payee' => ['bail', 'required', 'integer', 'different:payer', 'exists:users,id'],
+            'value' => ['required', 'gt:0', 'numeric', 'min:1'],
         ];
     }
 

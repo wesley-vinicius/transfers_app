@@ -52,9 +52,9 @@ class CreateTransactionService
         $payer->wallet->withdraw($data['value']);
         $payee->wallet->deposit($data['value']);
 
-        $transaction = DB::transaction(function () use ($transaction, $payer, $payee) { 
+        $transaction = DB::transaction(function () use ($transaction, $payer, $payee) {
             $this->userRepository->updateWallet($payer->wallet);
-            $this->userRepository->updateWallet( $payee->wallet);
+            $this->userRepository->updateWallet($payee->wallet);
 
             return $this->transactionRepository->create($transaction);
         });
