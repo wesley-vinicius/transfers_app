@@ -8,10 +8,7 @@ use App\Domain\User\Models\Wallet;
 interface UserRepositoryInterface
 {
     public function save(User $user): User;
-    
     public function findUserById(int $id): User;
-
     public function saveWallet(Wallet $wallet): void;
-
     public function updateWallet(Wallet $wallet): Wallet;
 }
