@@ -6,6 +6,7 @@ use App\Domain\User\Models\User;
 use App\Domain\User\Models\Wallet;
 use App\Domain\User\Repositories\UserRepository;
 use DomainException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -53,6 +54,14 @@ class UserRepositoryTest extends TestCase
             "user_type_id" => $user->user_type_id,
         ]);
         $this->assertEquals($user->toArray(), $returnRepository->toArray());
+    }
+
+    public function testMustReturnModelNotFoundExcption()
+    {
+        $this->expectException(ModelNotFoundException::class);
+     
+        $userRepository = new UserRepository();
+        $userRepository->findUserById(100);
     }
 
     public function testMustSaveWallet()
