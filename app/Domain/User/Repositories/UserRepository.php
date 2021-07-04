@@ -24,7 +24,7 @@ class UserRepository implements UserRepositoryInterface
         $wallet->save();
     }
 
-    public function UpdateWallet(Wallet $wallet): Wallet
+    public function updateWallet(Wallet $wallet): Wallet
     {
         if (is_null($wallet->id)) {
             throw new DomainException('wallet does not exist');

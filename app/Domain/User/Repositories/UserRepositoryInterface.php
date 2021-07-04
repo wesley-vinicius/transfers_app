@@ -13,5 +13,5 @@ interface UserRepositoryInterface
 
     public function saveWallet(Wallet $wallet): void;
 
-    public function UpdateWallet(Wallet $wallet): Wallet;
+    public function updateWallet(Wallet $wallet): Wallet;
 }

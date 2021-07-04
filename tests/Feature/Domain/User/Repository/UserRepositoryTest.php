@@ -99,7 +99,7 @@ class UserRepositoryTest extends TestCase
         $wallet->deposit(55);
 
         $userRepository = new UserRepository();
-        $userRepository->UpdateWallet($wallet);
+        $userRepository->updateWallet($wallet);
 
         $this->assertDatabaseHas('wallets', [
             "id" => 1,
@@ -121,6 +121,6 @@ class UserRepositoryTest extends TestCase
         ]);
 
         $userRepository = new UserRepository();
-        $userRepository->UpdateWallet($wallet);
+        $userRepository->updateWallet($wallet);
     }
 }
