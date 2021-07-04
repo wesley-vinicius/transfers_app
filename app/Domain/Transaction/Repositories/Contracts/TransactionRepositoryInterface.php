@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Transaction\Repositories;
+namespace App\Domain\Transaction\Repositories\Contracts;
 
 use App\Domain\Transaction\Models\Transaction;
 

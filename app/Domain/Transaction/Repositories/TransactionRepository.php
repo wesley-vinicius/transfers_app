@@ -3,7 +3,7 @@
 namespace App\Domain\Transaction\Repositories;
 
 use App\Domain\Transaction\Models\Transaction;
-use App\Domain\Transaction\Repositories\TransactionRepositoryInterface;
+use App\Domain\Transaction\Repositories\Contracts\TransactionRepositoryInterface;
 
 class TransactionRepository implements TransactionRepositoryInterface
 {
