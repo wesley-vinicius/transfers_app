@@ -52,13 +52,13 @@ class TransactionTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $transation = new Transaction([
+        $transaction = new Transaction([
             'payer_id' => $user->id,
             'payee_id' => 2,
             'value' => 1000
         ]);
 
-        $payer = $transation->payer;
+        $payer = $transaction->payer;
 
         $this->assertInstanceOf(User::class, $payer);
         $this->assertEquals($user->toArray(), $payer->toArray());
@@ -68,13 +68,13 @@ class TransactionTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $transation = new Transaction([
+        $transaction = new Transaction([
             'payer_id' => 3,
             'payee_id' => $user->id,
             'value' => 1000
         ]);
 
-        $payee = $transation->payee;
+        $payee = $transaction->payee;
 
         $this->assertInstanceOf(User::class, $payee);
         $this->assertEquals($user->toArray(), $payee->toArray());
