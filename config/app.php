@@ -180,6 +180,11 @@ return [
         */
         App\Domain\User\Providers\UserServiceProvider::class,
 
+        /**
+         * Transaction providers
+         */
+        App\Domain\Transaction\Providers\EventProvider::class
+        
     ],
 
     /*

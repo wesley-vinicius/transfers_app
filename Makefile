@@ -7,6 +7,7 @@ install:
 	@docker exec -it ${NAME_CONTAINER}_php php artisan key:generate
 	@docker exec -it ${NAME_CONTAINER}_php php artisan migrate
 	@docker exec -it ${NAME_CONTAINER}_php php artisan db:seed
+	@docker exec -it ${NAME_CONTAINER}_php php artisan queue:work
 
 docker-up:
 	@docker-compose up -d

@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Domain\Transaction\Services;
 
+use Illuminate\Support\Facades\Event;
+use App\Domain\Transaction\Events\SendNotification;
 use App\Domain\Transaction\Exceptions\RetailerCannotTransferException;
 use App\Domain\Transaction\Exceptions\UnauthorizedTransactionException;
 use App\Domain\Transaction\Models\Transaction;
@@ -29,6 +31,10 @@ class CreateTransactionServiceTest extends TestCase
     public function testMustReturnTransaction()
     {
 
+        Event::fake([
+            SendNotification::class
+        ]);
+        
         $data = [
             'payer_id' => 1,
             'payee_id' => 2,
@@ -64,6 +70,8 @@ class CreateTransactionServiceTest extends TestCase
 
         $this->assertInstanceOf(Transaction::class, $returnService);
         $this->assertEquals($data, $returnService->toArray());
+
+        Event::assertDispatched(SendNotification::class);
     }
 
     public function testMustReturnExceptionRetailerCannotTransfer()

@@ -2,6 +2,7 @@
 
 namespace App\Domain\Transaction\Services;
 
+use App\Domain\Transaction\Events\SendNotification;
 use App\Domain\Transaction\Exceptions\RetailerCannotTransferException;
 use App\Domain\Transaction\Exceptions\UnauthorizedTransactionException;
 use App\Domain\Transaction\Models\Transaction;
@@ -58,6 +59,8 @@ class CreateTransactionService
 
         $this->userRepository->updateWallet($walletPayer);
         $this->userRepository->updateWallet($walletPayee);
+
+        event(new SendNotification($transaction));
 
         return $transaction;
     }
