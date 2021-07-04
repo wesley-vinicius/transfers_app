@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Domain\User\Repository;
+namespace Tests\Feature\Domain\Transaction\Repository;
 
 use App\Domain\Transaction\Models\Transaction;
 use App\Domain\Transaction\Repositories\TransactionRepository;
