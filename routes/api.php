@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Transaction\Http\Controllers\TransactionController;
 use App\Domain\User\Http\Controllers\CreateUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/user', [CreateUserController::class, 'execute'])->name('user.create');
+Route::post('/transaction', [TransactionController::class, 'execute'])->name('transaction');

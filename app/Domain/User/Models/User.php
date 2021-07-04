@@ -36,7 +36,7 @@ class User extends Model
 
     public function isRetailer()
     {
-        return $this->user_type_id === 2;
+        return $this->user_type_id == 2;
     }
 
     private static function newFactory()

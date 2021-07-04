@@ -183,8 +183,9 @@ return [
         /**
          * Transaction providers
          */
-        App\Domain\Transaction\Providers\EventProvider::class
-        
+        App\Domain\Transaction\Providers\EventProvider::class,
+        App\Domain\Transaction\Providers\TransactionServiceProvider::class
+
     ],
 
     /*
