@@ -38,7 +38,11 @@ No recebimento de pagamento, o usuário ou lojista precisa receber notificação
    ```sh
    cp .env.example .env
    ```
-3. Setup inicial
+3. Entrar na pasta do projeto
+    ```sh
+    cd transfers_app
+    ```
+4. Setup inicial
    ### Ambiente docker
    ```sh
    docker-compose up -d
@@ -65,12 +69,16 @@ No recebimento de pagamento, o usuário ou lojista precisa receber notificação
    docker exec -it transfers_app_php php artisan test
    ```
    
-   ### Ambiente docker com Make
+   #### Comandos MakeFile para iniciar setup inicial
    ```sh
    make install
    ```
    ```sh
    make test
+   ```
+   URL para acesso
+    ```sh
+   localhost:98/
    ```
    
    ### Ambiente local
@@ -97,6 +105,10 @@ No recebimento de pagamento, o usuário ou lojista precisa receber notificação
    ```
    ```sh
    php artisan test
+   ```
+   URL para acesso
+    ```sh
+   localhost:98/
    ```
   
   
