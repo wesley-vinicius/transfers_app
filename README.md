@@ -2,7 +2,7 @@
 
 <br />
 <p align="center">
-  <h1 align="center"> Sistema para realizar transferência </h1> 
+  <h1 align="center"> Sistema para realizar transferências </h1> 
 </p>
 
 
