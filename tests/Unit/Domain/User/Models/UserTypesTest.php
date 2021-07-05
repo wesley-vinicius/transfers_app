@@ -15,7 +15,7 @@ class UserTypesTest extends TestCase
         parent::setUp();
     }
 
-    public function testWalletDatabaseHasExpectedColumns()
+    public function testUserTypesDatabaseHasExpectedColumns()
     {
         $this->assertTrue(
             Schema::hasColumns('user_types', [
