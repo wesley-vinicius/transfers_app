@@ -3,10 +3,10 @@ include .env
 install: 
 	@docker-compose up -d
 	@docker exec -it ${NAME_CONTAINER}_php composer update
-	@docker exec -it ${NAME_CONTAINER}_php chmod -R 777 storage/
 	@docker exec -it ${NAME_CONTAINER}_php php artisan key:generate
 	@docker exec -it ${NAME_CONTAINER}_php php artisan migrate
 	@docker exec -it ${NAME_CONTAINER}_php php artisan db:seed
+	@docker exec -it ${NAME_CONTAINER}_php chmod -R 777 storage/
 	@docker exec -it ${NAME_CONTAINER}_php php artisan queue:work
 
 docker-up:
@@ -29,6 +29,9 @@ docker-logs:
 
 docker-exec-php:
 	@docker exec -it ${NAME_CONTAINER}_php bash
+
+work-start:
+	@docker exec -it ${NAME_CONTAINER}_php php artisan queue:work
 
 test:
 	@docker exec -it ${NAME_CONTAINER}_php php artisan test --coverage-html tests/coverage/html
