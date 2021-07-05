@@ -2,7 +2,7 @@
 
 <br />
 <p align="center">
-  <h2 align="center">Sistema para realizar tranferencia </h2> 
+  <h1 align="center"> Sistema para realizar transferência </h1> 
 </p>
 
 
@@ -108,7 +108,7 @@ No recebimento de pagamento, o usuário ou lojista precisa receber notificação
    ```
    URL para acesso
     ```sh
-   localhost:98/
+   http://127.0.0.1:8000
    ```
   
   
