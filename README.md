@@ -69,10 +69,12 @@ No recebimento de pagamento, o usuário ou lojista precisa receber notificação
    docker exec -it transfers_app_php php artisan test
    ```
    
-   #### Comandos MakeFile para iniciar setup inicial
+   #### Comandos MakeFile 
+   ##### setup inicial
    ```sh
    make install
    ```
+   ##### Rodar testes
    ```sh
    make test
    ```
