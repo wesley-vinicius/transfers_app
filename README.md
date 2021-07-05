@@ -30,7 +30,7 @@ No recebimento de pagamento, o usuário ou lojista precisa receber notificação
 
 ## Instalação
 
-1. Clone do repositorio
+1. Clone de repositório
    ```sh
    git clone https://github.com/wesley-vinicius/transfers_app.git
    ```
