@@ -76,12 +76,22 @@ No recebimento de pagamento, o usuário ou lojista precisa receber notificação
    ```sh
    make test
    ```
-   URL para acesso
+   #### URL para acesso
     ```sh
    localhost:98/
    ```
    
    ### Ambiente local
+   #### Configuração banco de dados
+   ```sh
+    DB_CONNECTION=mysql
+    DB_HOST=localhost
+    DB_PORT=3306
+    DB_DATABASE=nomedobanco
+    DB_USERNAME=root
+    DB_PASSWORD=
+   ```
+   ```sh
     ```sh
    composer update
    ```
@@ -106,7 +116,7 @@ No recebimento de pagamento, o usuário ou lojista precisa receber notificação
    ```sh
    php artisan test
    ```
-   URL para acesso
+   #### URL para acesso
     ```sh
    http://127.0.0.1:8000
    ```
