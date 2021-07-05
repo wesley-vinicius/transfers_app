@@ -59,6 +59,9 @@ No recebimento de pagamento, o usuário ou lojista precisa receber notificação
    docker exec -it transfers_app_php php artisan db:seed
    ```
    ```sh
+   docker exec -it transfers_app_php php artisan queue:work
+   ```
+   ```sh
    docker exec -it transfers_app_php php artisan test
    ```
    
