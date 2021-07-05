@@ -46,9 +46,6 @@ No recebimento de pagamento, o usuário ou lojista precisa receber notificação
      ```sh
    docker exec -it transfers_app_php composer update
    ```
-   ```sh
-   docker exec -it transfers_app_php chmod -R 777 storage/
-   ```
     ```sh
    docker exec -it transfers_app_php php artisan key:generate
    ```
@@ -57,6 +54,9 @@ No recebimento de pagamento, o usuário ou lojista precisa receber notificação
    ```
    ```sh
    docker exec -it transfers_app_php php artisan db:seed
+   ```
+   ```sh
+   docker exec -it transfers_app_php chmod -R 777 storage/
    ```
    ```sh
    docker exec -it transfers_app_php php artisan queue:work
