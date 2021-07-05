@@ -78,9 +78,6 @@ No recebimento de pagamento, o usuário ou lojista precisa receber notificação
    composer update
    ```
    ```sh
-   sudo chmod -R 777 storage/
-   ```
-   ```sh
    php artisan key:generate
    ```
    ```sh
@@ -88,6 +85,9 @@ No recebimento de pagamento, o usuário ou lojista precisa receber notificação
    ```
    ```sh
    php artisan db:seed
+   ```
+    ```sh
+   sudo chmod -R 777 storage/
    ```
    ```sh
    php artisan serve
