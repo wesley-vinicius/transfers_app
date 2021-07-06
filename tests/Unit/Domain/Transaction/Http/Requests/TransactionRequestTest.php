@@ -34,4 +34,21 @@ class TransactionRequestTest extends TestCase
 
         $this->assertTrue($userCreateRequest->authorize());
     }
+
+    public function testMustReturnArrayToCreateTransaction()
+    {
+        $data =  [
+            'payer' => 1,
+            'payee' => 2,
+            'value' => 1000
+        ];
+
+        $transactionRequest = TransactionRequest::create('/transaction', 'POST', $data);
+
+        $this->assertEquals([
+            'payer_id' => $data['payer'],
+            'payee_id' => $data['payee'],
+            'value' => $data['value']
+        ], $transactionRequest->fromCreateTransaction());
+    }
 }

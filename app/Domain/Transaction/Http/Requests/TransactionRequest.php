@@ -40,4 +40,13 @@ class TransactionRequest extends FormRequest
             'payee.exists' => 'There is no beneficiary with this id',
         ];
     }
+    
+    public function fromCreateTransaction()
+    {
+        return [
+            'payer_id' => $this->payer,
+            'payee_id' => $this->payee,
+            'value' => $this->value
+        ];
+    }
 }

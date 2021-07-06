@@ -23,12 +23,8 @@ class TransactionController extends Controller
     public function execute(TransactionRequest $request)
     {
         try {
-            $payload = $request->all();
-            $this->createTransactionService->execute([
-                'payer_id' => $payload['payer'],
-                'payee_id' => $payload['payee'],
-                'value' => $payload['value'],
-            ]);
+            $data = $request->fromCreateTransaction();
+            $this->createTransactionService->execute($data);
 
             return $this->success(
                 [],
