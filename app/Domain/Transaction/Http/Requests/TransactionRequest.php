@@ -27,7 +27,7 @@ class TransactionRequest extends FormRequest
         return [
             'payer' => ['bail', 'required', 'integer', 'exists:users,id'],
             'payee' => ['bail', 'required', 'integer', 'different:payer', 'exists:users,id'],
-            'value' => ['required', 'gt:0', 'numeric', 'min:1'],
+            'value' => ['required', 'gt:0', 'numeric'],
         ];
     }
 

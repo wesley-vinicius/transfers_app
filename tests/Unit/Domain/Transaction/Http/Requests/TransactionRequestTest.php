@@ -20,7 +20,7 @@ class TransactionRequestTest extends TestCase
         $rulesUserCreate = [
             "payer" => ['bail', 'required', 'integer', 'exists:users,id'],
             "payee" => ['bail', 'required', 'integer', 'different:payer', 'exists:users,id'],
-            "value" => ['required', 'gt:0', 'numeric', 'min:1']
+            "value" => ['required', 'gt:0', 'numeric']
         ];
 
         $userCreateRequest = new TransactionRequest();
