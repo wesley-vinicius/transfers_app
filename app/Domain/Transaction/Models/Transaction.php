@@ -3,10 +3,15 @@
 namespace App\Domain\Transaction\Models;
 
 use App\Domain\User\Models\User;
+use Database\Factories\TransactionFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
+
+    use HasFactory;
+
     protected $table = 'transactions';
     /**
      * The attributes that are mass assignable.
@@ -35,5 +40,10 @@ class Transaction extends Model
     public function payee()
     {
         return $this->belongsTo(User::class, 'payee_id', 'id');
+    }
+
+    private static function newFactory()
+    {
+        return TransactionFactory::new();
     }
 }
