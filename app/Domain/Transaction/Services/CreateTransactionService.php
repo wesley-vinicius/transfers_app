@@ -29,39 +29,41 @@ class CreateTransactionService
         $this->authorizeTransaction = $authorizeTransaction;
     }
 
-    public function execute(CreateTransactionDataTransfer $createTransactionDataTransfer)
-    {
-        $payer = $this->userRepository->findUserById($createTransactionDataTransfer->payer_id);
-        $payee = $this->userRepository->findUserById($createTransactionDataTransfer->payee_id);
+    public function execute(CreateTransactionDataTransfer $createTransactionDataTransfer): TransactionDataTransfer
+    {  
+        $transaction = DB::transaction(function () use ($createTransactionDataTransfer) {
 
-        if ($payer->isRetailer()) {
-            throw new RetailerCannotTransferException(
-                'Retailer cannot transfer'
-            );
-        }
-        if (! $this->authorizeTransaction->authorized()) {
-            throw new UnauthorizedTransactionException(
-                'Unauthorized transaction'
-            );
-        }
+            $payer = $this->userRepository->findUserById($createTransactionDataTransfer->payer_id);
+            $payee = $this->userRepository->findUserById($createTransactionDataTransfer->payee_id);
 
-        $transaction = new Transaction([
-            'payer_id' => $createTransactionDataTransfer->payer_id,
-            'payee_id' => $createTransactionDataTransfer->payee_id,
-            'value' => $createTransactionDataTransfer->value,
-        ]);
+            if ($payer->isRetailer()) {
+                throw new RetailerCannotTransferException(
+                    'Retailer cannot transfer'
+                );
+            }
+            if (! $this->authorizeTransaction->authorized()) {
+                throw new UnauthorizedTransactionException(
+                    'Unauthorized transaction'
+                );
+            }
 
-        $payer->wallet->withdraw($createTransactionDataTransfer->value);
-        $payee->wallet->deposit($createTransactionDataTransfer->value);
+            $transaction = new Transaction([
+                'payer_id' => $createTransactionDataTransfer->payer_id,
+                'payee_id' => $createTransactionDataTransfer->payee_id,
+                'value' => $createTransactionDataTransfer->value,
+            ]);
 
-        $transaction = DB::transaction(function () use ($transaction, $payer, $payee) {
+            $payer->wallet->withdraw($createTransactionDataTransfer->value);
+            $payee->wallet->deposit($createTransactionDataTransfer->value);
+    
             $this->userRepository->updateWallet($payer->wallet);
             $this->userRepository->updateWallet($payee->wallet);
 
             return $this->transactionRepository->create($transaction);
-        });
-        event(new SendNotification($transaction));
 
+        });
+
+        event(new SendNotification($transaction));
         return new TransactionDataTransfer($transaction);
     }
 }
