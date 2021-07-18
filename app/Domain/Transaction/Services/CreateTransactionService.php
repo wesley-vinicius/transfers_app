@@ -2,6 +2,7 @@
 
 namespace App\Domain\Transaction\Services;
 
+use App\Domain\Transaction\DataTransfer\TransactionDataTransfer;
 use App\Domain\Transaction\Events\SendNotification;
 use App\Domain\Transaction\Exceptions\RetailerCannotTransferException;
 use App\Domain\Transaction\Exceptions\UnauthorizedTransactionException;
@@ -60,6 +61,6 @@ class CreateTransactionService
         });
         event(new SendNotification($transaction));
 
-        return $transaction;
+        return new TransactionDataTransfer($transaction);
     }
 }

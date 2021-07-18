@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Domain\Transaction\Http\Controllers;
 
+use App\Domain\Transaction\DataTransfer\TransactionDataTransfer;
 use App\Domain\Transaction\Exceptions\RetailerCannotTransferException;
 use App\Domain\Transaction\Exceptions\UnauthorizedTransactionException;
 use App\Domain\Transaction\Http\Controllers\TransactionController;
@@ -29,12 +30,13 @@ class TransactionControllerTest extends TestCase
             'value' => 1000
         ];
 
-        $transaction = new Transaction($data);
+        $transaction =  Transaction::factory(['value' => 100])->make();
+        $transactionDataTransfer = new TransactionDataTransfer($transaction);
 
         $transactionServiceMock = $this->mock(CreateTransactionService::class);
         $transactionServiceMock->shouldReceive('execute')
             ->once()
-            ->andReturn($transaction);
+            ->andReturn($transactionDataTransfer);
 
         $transactionRequest = TransactionRequest::create('/transaction', 'POST', $data);
 

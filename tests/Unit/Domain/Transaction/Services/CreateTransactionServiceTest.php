@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Domain\Transaction\Services;
 
+use App\Domain\Transaction\DataTransfer\TransactionDataTransfer;
 use Illuminate\Support\Facades\Event;
 use App\Domain\Transaction\Events\SendNotification;
 use App\Domain\Transaction\Exceptions\RetailerCannotTransferException;
@@ -13,7 +14,6 @@ use App\Domain\Transaction\Services\CreateTransactionService;
 use App\Domain\User\Models\User;
 use App\Domain\User\Models\Wallet;
 use App\Domain\User\Repositories\UserRepository;
-
 use Tests\TestCase;
 
 class CreateTransactionServiceTest extends TestCase
@@ -28,7 +28,7 @@ class CreateTransactionServiceTest extends TestCase
         parent::setUp();
     }
 
-    public function testMustReturnTransaction()
+    public function testMustReturnTransactionDataTransfer()
     {
 
         Event::fake([
@@ -49,7 +49,7 @@ class CreateTransactionServiceTest extends TestCase
         ->make();
         $payee->wallet = new Wallet(['balance' => 0]);
 
-        $transaction = new Transaction($data);
+        $transaction =  Transaction::factory($data)->make();
 
         $this->transactionRepositoryMock->method('create')
         ->willReturn($transaction);
@@ -68,8 +68,8 @@ class CreateTransactionServiceTest extends TestCase
         
         $returnService = $createUserService->execute($data);
 
-        $this->assertInstanceOf(Transaction::class, $returnService);
-        $this->assertEquals($data, $returnService->toArray());
+        $this->assertInstanceOf(TransactionDataTransfer::class, $returnService);
+        $this->assertEquals($data['value'], $returnService->value);
 
         Event::assertDispatched(SendNotification::class);
     }

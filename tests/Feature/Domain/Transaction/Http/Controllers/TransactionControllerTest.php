@@ -157,7 +157,17 @@ class TransactionControllerTest extends TestCase
             'value' => 500
         ]);
 
-        $response->assertStatus(Response::HTTP_OK);
+        $response->assertStatus(Response::HTTP_OK)
+        ->assertExactJson([ 
+            'message' => 'Transaction performed successfully',
+            'data' => [
+                "id" => 1,
+                "payer" => $payer->id,
+                "payee" =>  $payee->id,
+                "value" => 500.00
+            ]
+        ]);
+
     
         $this->assertDatabaseHas('wallets', [
             'id' => $payer->wallet->id,
@@ -196,7 +206,16 @@ class TransactionControllerTest extends TestCase
             'value' => 500.00
         ]);
 
-        $response->assertStatus(Response::HTTP_OK);
+        $response->assertStatus(Response::HTTP_OK)
+        ->assertExactJson([ 
+            'message' => 'Transaction performed successfully',
+            'data' => [
+                "id" => 1,
+                "payer" => $payer->id,
+                "payee" =>  $payee->id,
+                "value" => 500.00
+            ]
+        ]);
 
         $this->assertDatabaseHas('wallets', [
             'id' => $payer->wallet->id,

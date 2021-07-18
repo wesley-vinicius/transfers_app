@@ -24,13 +24,13 @@ class TransactionController extends Controller
     {
         try {
             $data = $request->fromCreateTransaction();
-            $this->createTransactionService->execute($data);
+            $transactionDataTranfer = $this->createTransactionService->execute($data);
 
             return $this->success(
-                [],
-                'Transaction performed successfully',
-                Response::HTTP_OK
+                $transactionDataTranfer->fromResponse(),
+                'Transaction performed successfully'
             );
+            
         } catch (UnauthorizedTransactionException | RetailerCannotTransferException $exception) {
             return $this->error($exception->getMessage(), Response::HTTP_UNAUTHORIZED);
         } catch (InsuficientBalanceException $exception) {
