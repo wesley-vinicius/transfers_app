@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Domain\User\Services;
 
+use App\Domain\User\DataTransfer\CreateUserDataTransfer;
 use App\Domain\User\DataTransfer\UserDataTransfer;
 use App\Domain\User\Models\User;
 use App\Domain\User\Repositories\UserRepository;
@@ -29,6 +30,7 @@ class CreateUserServiceTest extends TestCase
         ];
 
         $user = User::factory($data)->make();
+        $createUserDataTransfer = CreateUserDataTransfer::fromRequest($data);
 
         $userRepositoryMock = $this->mock(UserRepository::class);
         $userRepositoryMock->shouldReceive('save')
@@ -38,6 +40,6 @@ class CreateUserServiceTest extends TestCase
         /** @var UserRepositoryInterface $userRepositoryMock */
         $createUserService = new CreateUserService($userRepositoryMock);
 
-        $this->assertEquals(new UserDataTransfer($user), $createUserService->execute($data));
+        $this->assertEquals(new UserDataTransfer($user), $createUserService->execute($createUserDataTransfer));
     }
 }

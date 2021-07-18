@@ -3,6 +3,7 @@
 namespace App\Domain\User\Http\Controllers;
 
 use App\Core\Http\Controllers\Controller;
+use App\Domain\User\DataTransfer\CreateUserDataTransfer;
 use App\Domain\User\Http\Requests\UserCreateRequest;
 use App\Domain\User\Services\CreateUserService;
 use Illuminate\Support\Facades\Log;
@@ -20,7 +21,8 @@ class CreateUserController extends Controller
     public function execute(UserCreateRequest $request)
     {
         try {
-            $userDataTranfer = $this->createUserService->execute($request->all());
+            $createUserDataTransfer = CreateUserDataTransfer::fromRequest($request->all());
+            $userDataTranfer = $this->createUserService->execute($createUserDataTransfer);
             return $this->success(
                 $userDataTranfer->fromResponse(),
                 'user created successfully',

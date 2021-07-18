@@ -2,9 +2,11 @@
 
 namespace App\Domain\User\Services;
 
+use App\Domain\User\DataTransfer\CreateUserDataTransfer;
 use App\Domain\User\DataTransfer\UserDataTransfer;
 use App\Domain\User\Models\User;
 use App\Domain\User\Repositories\UserRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class CreateUserService
@@ -16,17 +18,19 @@ class CreateUserService
         $this->userRepository = $userRepository;
     }
 
-    public function execute(array $data): UserDataTransfer
+    public function execute(CreateUserDataTransfer $createUserDataTransfer): UserDataTransfer
     {
-        $user = new User([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'document' => $data['document'],
-            'user_type_id' => $data['user_type_id'],
-            'password' => Hash::make($data['password']),
-        ]);
-
-        $user = $this->userRepository->save($user);
+        $user = DB::transaction(function () use ($createUserDataTransfer) {
+            $user = new User([
+                'name' => $createUserDataTransfer->name,
+                'email' => $createUserDataTransfer->email,
+                'document' => $createUserDataTransfer->document,
+                'user_type_id' => $createUserDataTransfer->user_type_id,
+                'password' => Hash::make($createUserDataTransfer->password),
+            ]);
+    
+            return $this->userRepository->save($user);
+        });
 
         return new UserDataTransfer($user);
     }
