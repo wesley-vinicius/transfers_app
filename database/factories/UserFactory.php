@@ -28,6 +28,7 @@ class UserFactory extends Factory
         $document = $userType == 1 ? $faker->cpf : $faker->cnpj;
 
         return [
+            'id' => rand(1,1000),
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'user_type_id' => $userType,
