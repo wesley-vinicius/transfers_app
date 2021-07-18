@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Domain\Transaction\Services;
 
+use App\Domain\Transaction\DataTransfer\CreateTransactionDataTransfer;
 use App\Domain\Transaction\DataTransfer\TransactionDataTransfer;
 use Illuminate\Support\Facades\Event;
 use App\Domain\Transaction\Events\SendNotification;
@@ -41,6 +42,8 @@ class CreateTransactionServiceTest extends TestCase
             'value' => 1000
         ];
 
+        $createTransactionDataTransfer =  CreateTransactionDataTransfer::fromRequest($data);
+
         $payer = User::factory(['user_type_id' => 1])
         ->make();
         $payer->wallet = new Wallet(['balance' => 1001]);
@@ -66,10 +69,10 @@ class CreateTransactionServiceTest extends TestCase
             $this->authorizeTransactionMock
         );
         
-        $returnService = $createUserService->execute($data);
+        $returnService = $createUserService->execute($createTransactionDataTransfer);
 
         $this->assertInstanceOf(TransactionDataTransfer::class, $returnService);
-        $this->assertEquals($data['value'], $returnService->value);
+        $this->assertEquals($createTransactionDataTransfer->value, $returnService->value);
 
         Event::assertDispatched(SendNotification::class);
     }
@@ -83,6 +86,8 @@ class CreateTransactionServiceTest extends TestCase
             'payee_id' => 2,
             'value' => 1000
         ];
+
+        $createTransactionDataTransfer =  CreateTransactionDataTransfer::fromRequest($data);
 
         $transaction = new Transaction($data);
         $user = User::factory(['user_type_id' => 2])->make();
@@ -102,7 +107,7 @@ class CreateTransactionServiceTest extends TestCase
             $this->authorizeTransactionMock
         );
         
-        $createUserService->execute($data);
+        $createUserService->execute($createTransactionDataTransfer);
     }
 
     public function testMustReturnExceptionUnauthorizedTransaction()
@@ -114,6 +119,8 @@ class CreateTransactionServiceTest extends TestCase
             'payee_id' => 2,
             'value' => 1000
         ];
+
+        $createTransactionDataTransfer =  CreateTransactionDataTransfer::fromRequest($data);
 
         $transaction = new Transaction($data);
         $user = User::factory(['user_type_id' => 1])->make();
@@ -133,6 +140,6 @@ class CreateTransactionServiceTest extends TestCase
             $this->authorizeTransactionMock
         );
         
-        $createUserService->execute($data);
+        $createUserService->execute($createTransactionDataTransfer);
     }
 }

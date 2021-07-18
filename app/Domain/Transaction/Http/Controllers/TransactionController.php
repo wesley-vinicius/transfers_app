@@ -3,6 +3,7 @@
 namespace App\Domain\Transaction\Http\Controllers;
 
 use App\Core\Http\Controllers\Controller;
+use App\Domain\Transaction\DataTransfer\CreateTransactionDataTransfer;
 use App\Domain\Transaction\Exceptions\RetailerCannotTransferException;
 use App\Domain\Transaction\Exceptions\UnauthorizedTransactionException;
 use App\Domain\Transaction\Http\Requests\TransactionRequest;
@@ -23,8 +24,8 @@ class TransactionController extends Controller
     public function execute(TransactionRequest $request)
     {
         try {
-            $data = $request->fromCreateTransaction();
-            $transactionDataTranfer = $this->createTransactionService->execute($data);
+            $createTransactionDataTransfer = CreateTransactionDataTransfer::fromRequest($request->fromCreateTransaction());
+            $transactionDataTranfer = $this->createTransactionService->execute($createTransactionDataTransfer);
 
             return $this->success(
                 $transactionDataTranfer->fromResponse(),

@@ -2,6 +2,7 @@
 
 namespace App\Domain\Transaction\Services;
 
+use App\Domain\Transaction\DataTransfer\CreateTransactionDataTransfer;
 use App\Domain\Transaction\DataTransfer\TransactionDataTransfer;
 use App\Domain\Transaction\Events\SendNotification;
 use App\Domain\Transaction\Exceptions\RetailerCannotTransferException;
@@ -28,10 +29,10 @@ class CreateTransactionService
         $this->authorizeTransaction = $authorizeTransaction;
     }
 
-    public function execute(array $data)
+    public function execute(CreateTransactionDataTransfer $createTransactionDataTransfer)
     {
-        $payer = $this->userRepository->findUserById($data['payer_id']);
-        $payee = $this->userRepository->findUserById($data['payee_id']);
+        $payer = $this->userRepository->findUserById($createTransactionDataTransfer->payer_id);
+        $payee = $this->userRepository->findUserById($createTransactionDataTransfer->payee_id);
 
         if ($payer->isRetailer()) {
             throw new RetailerCannotTransferException(
@@ -45,13 +46,13 @@ class CreateTransactionService
         }
 
         $transaction = new Transaction([
-            'payer_id' => $data['payer_id'],
-            'payee_id' => $data['payee_id'],
-            'value' => $data['value'],
+            'payer_id' => $createTransactionDataTransfer->payer_id,
+            'payee_id' => $createTransactionDataTransfer->payee_id,
+            'value' => $createTransactionDataTransfer->value,
         ]);
 
-        $payer->wallet->withdraw($data['value']);
-        $payee->wallet->deposit($data['value']);
+        $payer->wallet->withdraw($createTransactionDataTransfer->value);
+        $payee->wallet->deposit($createTransactionDataTransfer->value);
 
         $transaction = DB::transaction(function () use ($transaction, $payer, $payee) {
             $this->userRepository->updateWallet($payer->wallet);
