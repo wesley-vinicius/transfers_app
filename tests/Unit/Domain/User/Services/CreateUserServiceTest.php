@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Domain\User\Services;
 
+use App\Domain\User\DataTransfer\UserDataTransfer;
 use App\Domain\User\Models\User;
 use App\Domain\User\Repositories\UserRepository;
 use App\Domain\User\Repositories\UserRepositoryInterface;
@@ -37,6 +38,6 @@ class CreateUserServiceTest extends TestCase
         /** @var UserRepositoryInterface $userRepositoryMock */
         $createUserService = new CreateUserService($userRepositoryMock);
 
-        $this->assertEquals($user, $createUserService->execute($data));
+        $this->assertEquals(new UserDataTransfer($user), $createUserService->execute($data));
     }
 }

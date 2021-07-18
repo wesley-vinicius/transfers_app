@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Domain\User\Http\Controllers;
 
+use App\Domain\User\DataTransfer\UserDataTransfer;
 use App\Domain\User\Http\Controllers\CreateUserController;
 use App\Domain\User\Http\Requests\UserCreateRequest;
 use App\Domain\User\Models\User;
@@ -36,11 +37,12 @@ class CreateUserControllerTest extends TestCase
         ];
 
         $user = User::factory($data)->make();
+        $userDataTransfer = new UserDataTransfer($user);
 
         $userServiceMock = $this->mock(CreateUserService::class);
         $userServiceMock->shouldReceive('execute')
             ->once()
-            ->andReturn($user);
+            ->andReturn($userDataTransfer);
 
         $this->faker = \Faker\Factory::create('pt_BR');
 

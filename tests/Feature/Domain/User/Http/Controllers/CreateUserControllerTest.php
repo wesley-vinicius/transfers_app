@@ -43,10 +43,15 @@ class CreateUserControllerTest extends TestCase
             $payload
         );
 
+
         $response->assertExactJson([ 
             'message' => 'user created successfully',
             'data' => [
-                'user' => ['id' => 1],
+                'id' => 1,
+                'name' => $payload['name'],
+                'email' => $payload['email'],
+                'user_type_id' => $payload['user_type_id'],
+                'document' => $payload['document'],
             ]
         ]);
 

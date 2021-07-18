@@ -20,9 +20,9 @@ class CreateUserController extends Controller
     public function execute(UserCreateRequest $request)
     {
         try {
-            $user = $this->createUserService->execute($request->all());
+            $userDataTranfer = $this->createUserService->execute($request->all());
             return $this->success(
-                ['user' => ['id' => $user->id]],
+                $userDataTranfer->fromResponse(),
                 'user created successfully',
                 Response::HTTP_CREATED
             );
