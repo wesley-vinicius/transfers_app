@@ -184,5 +184,3 @@ POST api/transaction
 }
 ```
 
-
-```
