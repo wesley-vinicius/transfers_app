@@ -20,7 +20,7 @@ class TransactionDataTransfer extends DataTransfer
         $this->value = $transaction->value;
     }
 
-    public function fromResponse()
+    public function fromResponse(): array
     {
         return [
             'id' => $this->id,
